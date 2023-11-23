@@ -1,21 +1,21 @@
 {
-  "name": "assignment-1",
-  "version": "1.0.0",
-  "description": "My first assignment in NodeJS",
-  "main": "myNodeServer.js",
+  "name": "nodejs-training",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "reload": "nodemon myNodeServer.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www",
+    "reload": "nodemon ./bin/www"
   },
-  "keywords": [
-    "NodeJS",
-    "Assignment",
-    "Server"
-  ],
-  "author": "Usamah Ateeq",
-  "license": "ISC",
   "dependencies": {
-    "axios": "^0.21.1",
-    "nodemon": "^2.0.22"
+    "cookie-parser": "~1.4.6",
+    "debug": "~4.3.4",
+    "dotenv": "^16.3.1",
+    "express": "~4.18.2",
+    "express-validator": "^7.0.1",
+    "http-errors": "~2.0.0",
+    "jade": "^0.29.0",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.3.0",
+    "morgan": "~1.10.0"
   }
 }
