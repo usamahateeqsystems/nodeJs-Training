@@ -1,0 +1,21 @@
+{
+  "name": "assignment-1",
+  "version": "1.0.0",
+  "description": "My first assignment in NodeJS",
+  "main": "myNodeServer.js",
+  "scripts": {
+    "reload": "nodemon myNodeServer.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "NodeJS",
+    "Assignment",
+    "Server"
+  ],
+  "author": "Usamah Ateeq",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "nodemon": "^2.0.22"
+  }
+}
