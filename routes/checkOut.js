@@ -5,7 +5,7 @@ const auth = require("../middleware/authentication");
 require("dotenv").config();
 const sgMail = require("@sendgrid/mail");
 
-router.post("/", auth.authenticate, async (req, res, next) => {
+router.post("/", auth.authenticate, async (req, res) => {
   try {
     const { user} = req.body;
 

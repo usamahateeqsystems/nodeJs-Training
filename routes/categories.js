@@ -10,7 +10,7 @@ const validateCategory = [
 ];
 
 /* GET categories listing. */
-router.get("/", auth.authenticate, async (req, res, next) => {
+router.get("/", auth.authenticate, async (req, res) => {
   try {
     const categoriesResult = await Categories.find().populate(
       "parent",
@@ -31,7 +31,7 @@ router.get("/", auth.authenticate, async (req, res, next) => {
   }
 });
 
-router.get("/:id", auth.authenticate, async (req, res, next) => {
+router.get("/:id", auth.authenticate, async (req, res) => {
   try {
     const categoryObject = await Categories.findById({
       _id: req.params.id,
@@ -54,7 +54,7 @@ router.get("/:id", auth.authenticate, async (req, res, next) => {
 router.post(
   "/",
   [auth.authenticate, validateCategory],
-  async (req, res, next) => {
+  async (req, res) => {
     try {
       const validCategory = validationResult(req);
       if (!validCategory.isEmpty()) {
@@ -101,7 +101,7 @@ router.post(
 router.put(
   "/:id",
   [auth.authenticate, validateCategory],
-  async (req, res, next) => {
+  async (req, res) => {
     try {
       const validcategory = validationResult(req);
       if (!validcategory.isEmpty()) {
@@ -135,7 +135,7 @@ router.put(
   }
 );
 
-router.delete("/:id", auth.authenticate, async (req, res, next) => {
+router.delete("/:id", auth.authenticate, async (req, res) => {
   try {
     if (req.params.id) {
       const del = await Categories.findOneAndDelete({ _id: req.params.id });

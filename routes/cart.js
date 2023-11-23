@@ -3,7 +3,7 @@ var router = express.Router();
 const Cart = require("../models/cart");
 const auth = require("../middleware/authentication");
 
-router.get("/:id", auth.authenticate, async (req, res, next) => {
+router.get("/:id", auth.authenticate, async (req, res) => {
   try {
     const cartObject = await Cart.findById({
       _id: req.params.id,
@@ -25,7 +25,7 @@ router.get("/:id", auth.authenticate, async (req, res, next) => {
 router.post(
   "/",
   auth.authenticate,
-  async (req, res, next) => {
+  async (req, res) => {
     try {
       const { user, productId, productName, productPrice, quantity } = req.body;
 
@@ -39,7 +39,7 @@ router.post(
         const cartItems = cartObject.items;
         cartItems.forEach((item)=>{
           if (item.productId == productId){
-            item.quantity = quantity
+            item.quantity = quantity;
             found = true;
           }
         });
@@ -50,7 +50,7 @@ router.post(
             productName: productName,
             productPrice: productPrice,
             quantity: quantity
-          })
+          });
         }
         await Cart.updateOne(
           { user: user },
@@ -91,7 +91,7 @@ router.post(
   }
 );
 
-router.delete("/:id", auth.authenticate, async (req, res, next) => {
+router.delete("/:id", auth.authenticate, async (req, res) => {
   try {
     if (req.params.id) {
       const del = await Cart.findOneAndDelete({ user: req.params.id });
