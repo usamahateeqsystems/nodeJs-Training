@@ -8,28 +8,46 @@ var app = require("../app");
 var debug = require("debug")("nodejs-training:server");
 var http = require("http");
 const db = require("../config/database");
+const cluster = require("cluster");
+const totalCPUs = require("os").cpus().length;
 
-db.connect();
-/**
- * Get port from environment and store in Express.
- */
+if (cluster.isMaster) {
+  console.log(`Number of CPUS is ${totalCPUs}`);
+  console.log(`Master ${process.pid} is running`);
 
-var port = normalizePort(process.env.PORT || "3000");
-app.set("port", port);
+  for (let i = 0; i < totalCPUs; i++) {
+    cluster.fork();
+  }
 
-/**
- * Create HTTP server.
- */
+  cluster.on("exit", (worker) => {
+    console.log(`worker ${worker.process.pid} died`);
+    console.log("Starting a new worker");
+    cluster.fork();
+  });
+} else {
+  console.log(`Child ${process.pid} is running`);
+  db.connect();
+  /**
+   * Get port from environment and store in Express.
+   */
 
-var server = http.createServer(app);
+  var port = normalizePort(process.env.PORT || "3000");
+  app.set("port", port);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+  /**
+   * Create HTTP server.
+   */
 
-server.listen(port);
-server.on("error", onError);
-server.on("listening", onListening);
+  var server = http.createServer(app);
+
+  /**
+   * Listen on provided port, on all network interfaces.
+   */
+
+  server.listen(port);
+  server.on("error", onError);
+  server.on("listening", onListening);
+}
 
 /**
  * Normalize a port into a number, string, or false.

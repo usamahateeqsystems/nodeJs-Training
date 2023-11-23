@@ -13,7 +13,7 @@ const validateUser = [
 ];
 
 /* GET users listing. */
-router.get("/", auth.authenticate, async (req, res, next) => {
+router.get("/", auth.authenticate, async (req, res) => {
   try {
     const usersResult = await Users.find();
     const users = [];
@@ -30,7 +30,7 @@ router.get("/", auth.authenticate, async (req, res, next) => {
   }
 });
 
-router.get("/:id", auth.authenticate, async (req, res, next) => {
+router.get("/:id", auth.authenticate, async (req, res) => {
   try {
     const userObject = await Users.findById({ _id: req.params.id });
     res.send({
@@ -48,9 +48,9 @@ router.get("/:id", auth.authenticate, async (req, res, next) => {
   }
 });
 
-router.post("/login", async (req, res, next) => {
+router.post("/login", async (req, res) => {
   try {
-    const userObject = await Users.findOne({ email: req.body.email }).then(
+    await Users.findOne({ email: req.body.email }).then(
       (userObject) => {
         if (userObject) {
           if (userObject.password === req.body.password) {
@@ -77,7 +77,7 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
-router.post("/", validateUser, async (req, res, next) => {
+router.post("/", validateUser, async (req, res) => {
   try {
     const validUser = validationResult(req);
     if (!validUser.isEmpty()) {
@@ -113,7 +113,7 @@ router.post("/", validateUser, async (req, res, next) => {
 router.put(
   "/:id",
   [auth.authenticate, validateUser],
-  async (req, res, next) => {
+  async (req, res) => {
     try {
       const validUser = validationResult(req);
       if (!validUser.isEmpty()) {
@@ -148,7 +148,7 @@ router.put(
   }
 );
 
-router.delete("/:id", auth.authenticate, async (req, res, next) => {
+router.delete("/:id", auth.authenticate, async (req, res) => {
   try {
     if (req.params.id) {
       const del = await Users.findOneAndDelete({ _id: req.params.id });

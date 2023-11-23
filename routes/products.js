@@ -14,7 +14,7 @@ const validateProduct = [
 ];
 
 /* GET products listing. */
-router.get("/", auth.authenticate, async (req, res, next) => {
+router.get("/", auth.authenticate, async (req, res) => {
   try {
     const productsResult = await Products.find().populate(
       "category",
@@ -37,7 +37,7 @@ router.get("/", auth.authenticate, async (req, res, next) => {
   }
 });
 
-router.get("/:id", auth.authenticate, async (req, res, next) => {
+router.get("/:id", auth.authenticate, async (req, res) => {
   try {
     const productObject = await Products.findById({
       _id: req.params.id,
@@ -62,7 +62,7 @@ router.get("/:id", auth.authenticate, async (req, res, next) => {
 router.post(
   "/",
   [auth.authenticate, validateProduct],
-  async (req, res, next) => {
+  async (req, res) => {
     try {
       const validProduct = validationResult(req);
       if (!validProduct.isEmpty()) {
@@ -115,7 +115,7 @@ router.post(
 router.put(
   "/:id",
   [auth.authenticate, validateProduct],
-  async (req, res, next) => {
+  async (req, res) => {
     try {
       const validproduct = validationResult(req);
       if (!validproduct.isEmpty()) {
@@ -154,7 +154,7 @@ router.put(
   }
 );
 
-router.patch("/", auth.authenticate, async (req, res, next) => {
+router.patch("/", auth.authenticate, async (req, res) => {
   try {
     const { productId, quantity } = req.body;
     if (productId) {
@@ -179,7 +179,7 @@ router.patch("/", auth.authenticate, async (req, res, next) => {
   }
 });
 
-router.delete("/:id", auth.authenticate, async (req, res, next) => {
+router.delete("/:id", auth.authenticate, async (req, res) => {
   try {
     if (req.params.id) {
       const del = await Products.findOneAndDelete({ _id: req.params.id });
